@@ -6,6 +6,7 @@ import os
 import sys
 import glob
 import dicom
+import json
 
 lines=[]
 dataset='SC1'
@@ -71,7 +72,7 @@ for setcode in seriesNumbers.keys():
         try:
             assert len(dcmruns)==8
         except AssertionError:
-            print('problem:',d,'has %d runs'%length(dcmruns))
+            print('problem:',d,'has %d runs'%len(dcmruns))
         seriesnums=[]
         for i,dcr in enumerate(dcmruns):
             assert int(os.path.basename(dcr))==(i+1)
@@ -81,3 +82,5 @@ for setcode in seriesNumbers.keys():
                 seriesnums.append(dcmdata.SeriesNumber)
         print(setcode,subcode,runnum,seriesnums)
         seriesNumbers[setcode][subcode][runnum]=[int(i) for i in seriesnums]
+
+json.dump(seriesNumbers,open('seriesNumbers.json','w'),sort_keys=True,indent=4)
