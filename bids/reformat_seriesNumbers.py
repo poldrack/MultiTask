@@ -8,6 +8,7 @@ import glob
 import dicom
 
 lines=[]
+dataset='SC1'
 subcode=''
 seriesNumbers={'SC1':{},'SC2':{}}
 with open('seriesNumbers.py') as f:
@@ -17,15 +18,15 @@ with open('seriesNumbers.py') as f:
             continue
         if l.find("func_seriesNum['SC2']")>-1:
             print('found SC2')
-            set='SC2'
+            dataset='SC2'
         if l.find('#')==0:
             continue
         l_s=l.split('...')
         seriesnums=l_s[0].lstrip().replace('],',']')
         subcode_last=subcode
         subcode=l_s[1].split('#')[-1].split('_')[0].replace(' ','')
-        if not subcode in seriesNumbers[set]:
-            seriesNumbers[set][subcode]={}
+        if not subcode in seriesNumbers[dataset]:
+            seriesNumbers[dataset][subcode]={}
         if subcode==subcode_last:
             session=2
         else:
@@ -35,9 +36,9 @@ with open('seriesNumbers.py') as f:
         print(l,subcode,session,seriesnums)
         seriesnums=seriesnums.replace('[','').replace(']','')
         if len(seriesnums)>0:
-            seriesNumbers[set][subcode][session]=[int(i) for i in seriesnums.split(',')]
+            seriesNumbers[dataset][subcode][session]=[int(i) for i in seriesnums.split(',')]
         else:
-            seriesNumbers[set][subcode][session]=[]
+            seriesNumbers[dataset][subcode][session]=[]
 # for the remainder of subjects, reverse engineer the series number
 # from the dicom headers
 
