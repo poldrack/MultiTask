@@ -68,7 +68,10 @@ for setcode in seriesNumbers.keys():
         print('processing:',subnum,runnum,d)
         dcmruns=glob.glob(os.path.join(d,'000*'))
         dcmruns.sort()
-        assert len(dcmruns)==8
+        try:
+            assert len(dcmruns)==8
+        except AssertionError:
+            print('problem:',d,'has %d runs'%length(dcmruns))
         seriesnums=[]
         for i,dcr in enumerate(dcmruns):
             assert int(os.path.basename(dcr))==(i+1)
