@@ -7,7 +7,6 @@ import sys
 import glob
 import dicom
 
-set='SC1'
 lines=[]
 subcode=''
 seriesNumbers={'SC1':{},'SC2':{}}
@@ -47,34 +46,34 @@ if len(sys.argv)>1:
 else:
     basedir='/scratch/01329/poldrack/MultiTask'
 
-setcode='SC1'
+for setcode in seriesNumbers.keys():
 
-dicomdir=os.path.join(basedir,setcode.lower(),'DICOM')
+    dicomdir=os.path.join(basedir,setcode.lower(),'DICOM')
 
-dicomdirs=glob.glob(os.path.join(dicomdir,'s*'))
-for d in dicomdirs:
-    try:
-        subcode=os.path.basename(d).split('_')[0]
-        subnum=int(os.path.basename(d).split('_')[0].replace('s',''))
-        runnum=int(os.path.basename(d).split('_')[1])
-    except ValueError:
-        print('skipping',d)
-        continue
-    if subnum<23:
-        print('skipping type 1 subject')
-        continue
-    if not subcode in seriesNumbers[setcode]:
-        seriesNumbers[setcode][subcode]={}
-    print('processing:',subnum,runnum,d)
-    dcmruns=glob.glob(os.path.join(d,'000*'))
-    dcmruns.sort()
-    assert len(dcmruns)==8
-    seriesnums=[]
-    for i,dcr in enumerate(dcmruns):
-        assert int(os.path.basename(dcr))==(i+1)
-        dcrfiles=glob.glob(os.path.join(dcr,'*.dcm'))
-        if len(dcrfiles)>0:
-            dcmdata=dicom.read_file(dcrfiles[0])
-            seriesnums.append(dcmdata.SeriesNumber)
-    print(setcode,subcode,runnum,seriesnums)
-    seriesNumbers[setcode][subcode][runnum]=[int(i) for i in seriesnums]
+    dicomdirs=glob.glob(os.path.join(dicomdir,'s*'))
+    for d in dicomdirs:
+        try:
+            subcode=os.path.basename(d).split('_')[0]
+            subnum=int(os.path.basename(d).split('_')[0].replace('s',''))
+            runnum=int(os.path.basename(d).split('_')[1])
+        except ValueError:
+            print('skipping',d)
+            continue
+        if subnum<23:
+            print('skipping type 1 subject')
+            continue
+        if not subcode in seriesNumbers[setcode]:
+            seriesNumbers[setcode][subcode]={}
+        print('processing:',subnum,runnum,d)
+        dcmruns=glob.glob(os.path.join(d,'000*'))
+        dcmruns.sort()
+        assert len(dcmruns)==8
+        seriesnums=[]
+        for i,dcr in enumerate(dcmruns):
+            assert int(os.path.basename(dcr))==(i+1)
+            dcrfiles=glob.glob(os.path.join(dcr,'*.dcm'))
+            if len(dcrfiles)>0:
+                dcmdata=dicom.read_file(dcrfiles[0])
+                seriesnums.append(dcmdata.SeriesNumber)
+        print(setcode,subcode,runnum,seriesnums)
+        seriesNumbers[setcode][subcode][runnum]=[int(i) for i in seriesnums]
