@@ -27,7 +27,6 @@ for sub in layout.get_subjects():
           assert len(m1)==1
         except:
           print('no fieldmap - skipping')
-          continue
         m2=layout.get(subject=sub,session=sess,
             type='magnitude2',extensions='.json')
         assert len(m2)==1
