@@ -80,7 +80,7 @@ def getFileInfo(niifile,bidsbase,setcode,
         fileinfo['bidsfilestem']=os.path.join(sd,
                     '%s_%s_T1w'%(fileinfo['bidssub'],
                         fileinfo['bidssess']))
-    elif fname_s[2]=='tse':
+    elif fname_s[2]=='t2':
         fileinfo['filetype']='anat'
         sd=os.path.join(fileinfo['bidssessdir'],'anat')
         fileinfo['bidsfilestem']=os.path.join(sd,
