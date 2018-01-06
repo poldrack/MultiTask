@@ -10,7 +10,8 @@ import json
 
 from bids.grabbids import BIDSLayout
 
-project_root = '/Users/poldrack/data_unsynced/multitask/sc1/BIDS'
+#project_root = '/Users/poldrack/data_unsynced/multitask/sc1/BIDS'
+project_root='/scratch/01329/poldrack/MultiTask/sc2/BIDS'
 layout = BIDSLayout(project_root)
 
 
@@ -22,7 +23,11 @@ for sub in layout.get_subjects():
 
         m1=layout.get(subject=sub,session=sess,
             type='magnitude1',extensions='.json')
-        assert len(m1)==1
+        try:
+          assert len(m1)==1
+        except:
+          print('no fieldmap - skipping')
+          continue
         m2=layout.get(subject=sub,session=sess,
             type='magnitude2',extensions='.json')
         assert len(m2)==1
