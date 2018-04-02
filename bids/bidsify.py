@@ -21,8 +21,8 @@ def getSeriesNumbers(setcode,subcode,sesscode):
 if len(sys.argv)>1:
     basedir=sys.argv[1]
 else:
-    #basedir='/scratch/01329/poldrack/MultiTask'
-    basedir='/Users/poldrack/data_unsynced/multitask'
+    basedir='/scratch/01329/poldrack/MultiTask'
+    #basedir='/Users/poldrack/data_unsynced/multitask'
 
 verbose=False
 

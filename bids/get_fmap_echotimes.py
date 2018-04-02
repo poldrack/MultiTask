@@ -3,7 +3,7 @@ import dicom
 import json
 
 
-basedir='/Users/poldrack/data_unsynced/multitask/sc1/nii'
+basedir='/scratch/01329/poldrack/MultiTask/sc1/nii'
 
 fmapfiles=glob.glob(os.path.join(basedir,'*/*gre*.json'))
 
